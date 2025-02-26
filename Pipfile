@@ -1,0 +1,23 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+
+pgmpy="0.1.24"
+pyro-ppl="1.8.6"
+graphviz="0.20.1"
+dowhy="0.11.1"
+
+
+[dev-packages]
+
+pgmpy="0.1.24"
+pyro-ppl="1.8.6"
+graphviz="0.20.1"
+dowhy="0.11.1"
+
+
+[requires]
+python_version = "3.9"
