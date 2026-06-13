@@ -4,20 +4,34 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-
-pgmpy="0.1.24"
-pyro-ppl="1.8.6"
-graphviz="0.20.1"
-dowhy="0.11.1"
-
+pgmpy = ">=0.1.25"
+pyro-ppl = ">=1.9.1"
+graphviz = ">=0.20.3"
+dowhy = ">=0.11.1"
+torch = ">=2.3.0"
+pandas = ">=2.2.0"
+numpy = ">=1.26.0"
+networkx = ">=3.3"
+matplotlib = ">=3.9.0"
+pyyaml = ">=6.0.1"
 
 [dev-packages]
-
-pgmpy="0.1.24"
-pyro-ppl="1.8.6"
-graphviz="0.20.1"
-dowhy="0.11.1"
-
+pytest = ">=8.2.0"
+pytest-cov = ">=5.0.0"
+pytest-mock = ">=3.14.0"
+ruff = ">=0.4.0"
+black = ">=24.4.0"
+mypy = ">=1.10.0"
+types-pyyaml = ">=6.0.12"
+safety = ">=3.2.0"
+bandit = ">=1.7.8"
 
 [requires]
-python_version = "3.9"
+python_version = "3.11"
+
+[scripts]
+test = "pytest tests/ -v --cov=src --cov-report=term-missing"
+lint = "ruff check src/ tests/"
+format = "black src/ tests/"
+typecheck = "mypy src/"
+security = "bandit -r src/"

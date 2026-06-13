@@ -1,0 +1,111 @@
+# =============================================================================
+# AI Causal Basics - Application Configuration
+# =============================================================================
+# This file contains all environment-specific settings.
+# Override values per environment by creating config.local.yaml (git-ignored).
+# =============================================================================
+
+# --- Application Metadata ---
+application:
+  name: "ai-causal-basics"                    # Application identifier
+  version: "1.0.0"                            # Semantic version number
+  description: "Causal Inference Learning Framework"  # Human-readable description
+
+# --- Logging Configuration ---
+logging:
+  level: "INFO"                               # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"  # Log message format
+  date_format: "%Y-%m-%d %H:%M:%S"           # Timestamp format in log entries
+  file_enabled: true                          # Whether to write logs to file
+  file_path: "logs/application.log"           # Path to the log output file
+  max_file_size_mb: 10                        # Maximum log file size before rotation
+  backup_count: 5                             # Number of rotated log files to keep
+  console_enabled: true                       # Whether to output logs to console
+
+# --- Data Configuration ---
+data:
+  transportation_survey_url: "https://raw.githubusercontent.com/altdeep/causalML/master/datasets/transportation_survey.csv"  # Remote dataset URL
+  cache_enabled: true                         # Whether to cache downloaded datasets locally
+  cache_directory: "data/cache"               # Directory for cached dataset files
+  request_timeout_seconds: 30                 # HTTP request timeout for data downloads
+  max_retries: 3                              # Number of retry attempts for failed downloads
+
+# --- Model Configuration ---
+model:
+  # Bayesian Network Parameters
+  bayesian_network:
+    estimator: "BayesianEstimator"            # Parameter estimation method
+    prior_type: "dirichlet"                   # Prior distribution type for Bayesian estimation
+    pseudo_counts: 1                          # Dirichlet prior pseudo-count hyperparameter
+
+  # Pyro Probabilistic Programming Parameters
+  pyro:
+    num_samples: 5000                         # Number of samples for importance sampling
+    random_seed: 42                           # Random seed for reproducibility
+
+  # Latent Variable Model Parameters
+  latent:
+    expectation_maximization:
+      latent_cardinality: 2                   # Number of states for latent variables
+
+# --- Probability Distribution Defaults ---
+probability:
+  default_variable_name: "X"                  # Default variable name for distributions
+  default_cardinality: 3                      # Default number of outcomes
+  default_values: [0.45, 0.30, 0.25]         # Default probability values
+  default_state_names: ["1", "2", "3"]        # Default state labels
+
+# --- Visualization Configuration ---
+visualization:
+  figure_dpi: 100                             # DPI resolution for saved figures
+  figure_format: "png"                        # Output format for figures (png, svg, pdf)
+  output_directory: "output/figures"          # Directory for saved figure files
+  show_plots: true                            # Whether to display plots interactively
+  color_scheme: "default"                     # Color scheme for visualizations
+
+# --- DAG Structure Definition ---
+dag:
+  # Transportation Survey DAG edges (parent, child)
+  transportation_edges:
+    - ["A", "E"]                              # Age causes Education level
+    - ["S", "E"]                              # Sex causes Education level
+    - ["E", "O"]                              # Education causes Occupation
+    - ["E", "R"]                              # Education causes Residence size
+    - ["O", "T"]                              # Occupation causes Transportation mode
+    - ["R", "T"]                              # Residence causes Transportation mode
+
+  # Variable aliases for human-readable output
+  variable_aliases:
+    A: "Age"                                  # Age variable full name
+    S: "Sex"                                  # Sex variable full name
+    E: "Education"                            # Education variable full name
+    O: "Occupation"                           # Occupation variable full name
+    R: "Residence"                            # Residence variable full name
+    T: "Transportation"                       # Transportation variable full name
+
+  # Categorical outcome labels
+  outcome_labels:
+    A: ["young", "adult", "old"]              # Age category labels
+    S: ["M", "F"]                             # Sex category labels
+    E: ["high", "uni"]                        # Education category labels
+    O: ["emp", "self"]                        # Occupation category labels
+    R: ["small", "big"]                       # Residence category labels
+    T: ["car", "train", "other"]              # Transportation category labels
+
+# --- DoWhy Simulation Parameters ---
+dowhy:
+  beta: 10.0                                  # Causal effect strength coefficient
+  num_treatments: 1                           # Number of treatment variables
+  num_instruments: 2                          # Number of instrumental variables
+  num_effect_modifiers: 2                     # Number of effect modifier variables
+  num_common_causes: 5                        # Number of common cause (confounder) variables
+  num_frontdoor_variables: 1                  # Number of front-door variables
+  num_samples: 100                            # Number of simulated data samples
+
+# --- Security Configuration ---
+security:
+  ssl_verify: true                            # Whether to verify SSL certificates
+  allowed_domains:                            # Whitelist of domains for data downloads
+    - "raw.githubusercontent.com"
+    - "github.com"
+  max_download_size_mb: 100                   # Maximum allowed download file size
