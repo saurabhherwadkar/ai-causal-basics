@@ -1,16 +1,36 @@
-# =============================================================================
-# AI Causal Basics - Project Configuration
-# =============================================================================
-# Centralized configuration for linting, formatting, type checking, and testing.
-# =============================================================================
-
-[project]
+[tool.poetry]
 name = "ai-causal-basics"
 version = "1.0.0"
 description = "A structured causal inference learning framework using pgmpy, Pyro, and DoWhy"
-requires-python = ">=3.11"
+authors = ["Saurabh Herwadkar"]
+license = "GPL-3.0"
+packages = [{include = "src"}]
 
-# --- Pytest Configuration ---
+[tool.poetry.dependencies]
+python = "^3.12"
+pgmpy = "^0.1.25"
+pyro-ppl = "^1.9.1"
+graphviz = "^0.20.3"
+dowhy = "^0.11.1"
+torch = "^2.4.0"
+pandas = "^2.2.0"
+numpy = "^2.1.0"
+networkx = "^3.4"
+matplotlib = "^3.9.0"
+pyyaml = "^6.0.2"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.0"
+pytest-cov = "^6.0.0"
+pytest-mock = "^3.14.0"
+ruff = "^0.8.0"
+mypy = "^1.14.0"
+types-pyyaml = "^6.0.12"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
@@ -18,89 +38,34 @@ python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = "-v --strict-markers --cov=src --cov-report=term-missing --cov-report=html"
 markers = [
-    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "slow: marks tests as slow",
     "integration: marks tests that require network access",
 ]
 
-# --- Coverage Configuration ---
 [tool.coverage.run]
 source = ["src"]
-omit = [
-    "tests/*",
-    "src/run_*.py",
-]
+omit = ["tests/*", "src/run_*.py"]
 
 [tool.coverage.report]
 fail_under = 70
 show_missing = true
-exclude_lines = [
-    "pragma: no cover",
-    "if __name__ == .__main__.",
-    "pass",
-]
 
-# --- Ruff Linter Configuration ---
 [tool.ruff]
-target-version = "py311"
+target-version = "py312"
 line-length = 100
 src = ["src", "tests"]
 
 [tool.ruff.lint]
-select = [
-    "E",     # pycodestyle errors
-    "W",     # pycodestyle warnings
-    "F",     # pyflakes
-    "I",     # isort (import sorting)
-    "N",     # pep8-naming
-    "UP",    # pyupgrade
-    "S",     # flake8-bandit (security)
-    "B",     # flake8-bugbear
-    "A",     # flake8-builtins
-    "C4",    # flake8-comprehensions
-    "DTZ",   # flake8-datetimez
-    "T20",   # flake8-print (flag print statements)
-    "SIM",   # flake8-simplify
-    "TCH",   # flake8-type-checking
-    "RUF",   # ruff-specific rules
-]
-ignore = [
-    "T201",  # Allow print statements (used in demonstration scripts)
-    "S101",  # Allow assert statements (used in tests)
-]
+select = ["E", "W", "F", "I", "N", "UP", "S", "B", "A", "C4", "DTZ", "T20", "SIM", "TCH", "RUF"]
+ignore = ["T201", "S101"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S101", "S106"]
 "src/run_*.py" = ["T201"]
 
-[tool.ruff.lint.isort]
-known-first-party = ["src"]
-
-# --- Black Formatter Configuration ---
-[tool.black]
-target-version = ["py311"]
-line-length = 100
-
-# --- Mypy Type Checker Configuration ---
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.12"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
-check_untyped_defs = true
 ignore_missing_imports = true
-
-[[tool.mypy.overrides]]
-module = [
-    "pgmpy.*",
-    "pyro.*",
-    "torch.*",
-    "dowhy.*",
-    "networkx.*",
-    "matplotlib.*",
-]
-ignore_missing_imports = true
-
-# --- Bandit Security Scanner Configuration ---
-[tool.bandit]
-exclude_dirs = ["tests"]
-skips = ["B101"]
