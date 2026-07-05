@@ -2,7 +2,7 @@
 
 A structured causal inference learning framework that demonstrates foundational concepts in causal reasoning using probabilistic graphical models. Built with **pgmpy**, **Pyro**, and **DoWhy**, this project provides well-organized, production-quality code for learning and experimenting with causal AI techniques.
 
-## Key Learning Objectives
+## Objectives
 
 - Understand the difference between correlation and causation through hands-on probabilistic modeling
 - Build and parameterize Bayesian Networks using directed acyclic graphs (DAGs) to encode causal assumptions
